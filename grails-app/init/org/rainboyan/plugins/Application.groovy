@@ -1,4 +1,4 @@
-package com.rainboyan.plugins
+package org.rainboyan.plugins
 
 import grails.boot.*
 import grails.boot.config.GrailsAutoConfiguration

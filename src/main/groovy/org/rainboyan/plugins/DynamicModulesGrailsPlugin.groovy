@@ -1,8 +1,8 @@
-package com.rainboyan.plugins
+package org.rainboyan.plugins
 
 import grails.plugins.*
 
-class GrailsPluginDynamicModulesGrailsPlugin extends Plugin {
+class DynamicModulesGrailsPlugin extends Plugin {
 
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "4.0.0 > *"
@@ -12,9 +12,9 @@ class GrailsPluginDynamicModulesGrailsPlugin extends Plugin {
     ]
 
     // TODO Fill in these fields
-    def title = "Grails Plugin Dynamic Modules" // Headline display name of the plugin
-    def author = "Your name"
-    def authorEmail = ""
+    def title = "Grails Dynamic Modules Plugin" // Headline display name of the plugin
+    def author = "Michael Yan"
+    def authorEmail = "rain@rainboyan.com"
     def description = '''\
 Brief summary/description of the plugin.
 '''
