@@ -1,14 +1,16 @@
 buildscript {
     repositories {
+        mavenCentral()
         maven { url "https://repo.grails.org/grails/core" }
+        maven { url 'https://repo.gradle.org/gradle/libs-releases' }
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
     }
 }
 
-version "0.1"
-group "com.rainboyan.plugins"
+version projectVersion
+group "org.rainboyan.plugins"
 
 apply plugin: "eclipse"
 apply plugin: "idea"
@@ -19,6 +21,7 @@ apply plugin: "org.grails.grails-plugin"
 
 repositories {
     mavenLocal()
+    mavenCentral()
     maven { url "https://repo.grails.org/grails/core" }
 }
 
@@ -33,7 +36,6 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     compileOnly "org.grails:grails-core"
     profile "org.grails.profiles:web-plugin"
-    testCompileOnly "org.grails:grails-plugin-testing"
 }
 
 java {
