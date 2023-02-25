@@ -16,12 +16,7 @@ Add dependency to the `build.gradle`,
 ```gradle
 
 repositories {
-    maven {
-        url "https://s01.oss.sonatype.org/content/repositories/snapshots/"
-        mavenContent {
-            snapshotsOnly()
-        }
-    }
+    mavenCentral()
 }
 
 dependencies {
