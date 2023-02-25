@@ -6,8 +6,14 @@ buildscript {
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
+        classpath "io.github.gradle-nexus:publish-plugin:1.2.0"
     }
 }
+
+ext."signing.keyId" = project.hasProperty("signing.keyId") ? project.getProperty('signing.keyId') : System.getenv('SIGNING_KEY_ID')
+ext."signing.password" = project.hasProperty("signing.password") ? project.getProperty('signing.password') : System.getenv('SIGNING_PASSPHRASE')
+ext."signing.secretKeyRingFile" = project.hasProperty("signing.secretKeyRingFile") ? project.getProperty('signing.secretKeyRingFile') : ("${System.properties['user.home']}${File.separator}.gnupg${File.separator}secring.gpg")
+ext.isReleaseVersion = !projectVersion.endsWith("SNAPSHOT")
 
 version projectVersion
 group "org.rainboyan.plugins"
@@ -15,9 +21,10 @@ group "org.rainboyan.plugins"
 apply plugin: "eclipse"
 apply plugin: "idea"
 apply plugin: "java-library"
-apply plugin: "maven-publish"
 apply plugin: "org.grails.grails-plugin"
-// apply plugin:"org.grails.internal.grails-plugin-publish"
+apply plugin: "io.github.gradle-nexus.publish-plugin"
+apply plugin: "maven-publish"
+apply plugin: "signing"
 
 repositories {
     mavenLocal()
@@ -35,24 +42,14 @@ configurations {
 dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     compileOnly "org.grails:grails-core"
+    compileOnly "org.springframework.boot:spring-boot-autoconfigure"
+    implementation("org.apache.commons:commons-lang3:3.12.0")
+    implementation("com.github.ben-manes.caffeine:caffeine:2.9.3")
     profile "org.grails.profiles:web-plugin"
 }
 
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
-
-bootRun {
-    ignoreExitValue true
-    jvmArgs(
-        '-Dspring.output.ansi.enabled=always', 
-        '-noverify', 
-        '-XX:TieredStopAtLevel=1',
-        '-Xmx1024m')
-    sourceResources sourceSets.main
-    String springProfilesActive = 'spring.profiles.active'
-    systemProperty springProfilesActive, System.getProperty(springProfilesActive)
+tasks.withType(Sign) {
+   onlyIf { isReleaseVersion }
 }
 
 tasks.withType(GroovyCompile) {
@@ -65,9 +62,20 @@ tasks.withType(Test) {
     useJUnitPlatform()
 }
 
+bootJar.enabled = false
+
+java {
+    withJavadocJar()
+    withSourcesJar()
+}
+
 publishing {
     publications {
-        mavenJava(MavenPublication) {
+        maven(MavenPublication) {
+            groupId = project.group
+            artifactId = 'grails-plugin-dynamic-modules'
+            version = project.version
+
             versionMapping {
                 usage('java-api') {
                     fromResolutionOf('runtimeClasspath')
@@ -76,7 +84,54 @@ publishing {
                     fromResolutionResult()
                 }
             }
+
             from components.java
+
+            pom {
+                name = "Grails Dynamic Modules Plugin"
+                description = "Grails Dynamic Modules Plugin offer new ways of creating modular and maintainable Grails applications"
+                url = 'https://github.com/rainboyan/grails-plugin-dynamic-modules'
+                licenses {
+                    license {
+                        name = 'The Apache License, Version 2.0'
+                        url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'rainboyan'
+                        name = 'Michael Yan'
+                        email = 'rain@rainboyan.com'
+                    }
+                }
+                scm {
+                    connection = 'scm:git:git://github.com/rainboyan/grails-plugin-dynamic-modules.git'
+                    developerConnection = 'scm:git:ssh://github.com:rainboyan/grails-plugin-dynamic-modules.git'
+                    url = 'https://github.com/rainboyan/grails-plugin-dynamic-modules/tree/main'
+                }
+            }
         }
+    }
+}
+
+nexusPublishing {
+    repositories {
+        sonatype {
+            def ossUser = System.getenv("SONATYPE_USERNAME") ?: project.hasProperty("sonatypeOssUsername") ? project.sonatypeOssUsername : ''
+            def ossPass = System.getenv("SONATYPE_PASSWORD") ?: project.hasProperty("sonatypeOssPassword") ? project.sonatypeOssPassword : ''
+            def ossStagingProfileId = System.getenv("SONATYPE_STAGING_PROFILE_ID") ?: project.hasProperty("sonatypeOssStagingProfileId") ? project.sonatypeOssStagingProfileId : ''
+            nexusUrl = uri("https://s01.oss.sonatype.org/service/local/")
+            snapshotRepositoryUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
+            username = ossUser
+            password = ossPass
+            stagingProfileId = ossStagingProfileId
+        }
+    }
+}
+
+afterEvaluate {
+    signing {
+        required { isReleaseVersion && gradle.taskGraph.hasTask("publish") }
+        sign publishing.publications.maven
     }
 }

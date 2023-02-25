@@ -1,0 +1,3 @@
+# Application Listener
+org.springframework.context.ApplicationListener=\
+org.rainboyan.plugins.DynamicModulesApplicationListener

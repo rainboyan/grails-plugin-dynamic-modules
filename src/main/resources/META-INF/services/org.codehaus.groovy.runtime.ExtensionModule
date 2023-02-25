@@ -1,0 +1,3 @@
+moduleName=grails-plugin-extension
+moduleVersion=1.0.0
+extensionClasses=org.rainboyan.plugins.support.GrailsPluginExtension,org.rainboyan.plugins.support.GrailsPluginManagerExtension
