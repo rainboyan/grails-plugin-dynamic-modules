@@ -110,6 +110,29 @@ cd grails-plugin-dynamic-modules
 * Grails 4.0, 4.1
 * Grails 5.0, 5.1, 5.2, 5.3
 
+## Known issues
+
+Grails has a bug that has been around since 2.0.0. I have submitted a patch for this bug, you can learn about it here, hope to fix it in the next release.
+
+* [Grails 4.0.x#12891](https://github.com/grails/grails-core/pull/12891)
+* [Grails 4.1.x#12892](https://github.com/grails/grails-core/pull/12892)
+* [Grails 5.0.x#12893](https://github.com/grails/grails-core/pull/12893)
+* [Grails 5.1.x#12894](https://github.com/grails/grails-core/pull/12894)
+* [Grails 5.2.x#12895](https://github.com/grails/grails-core/pull/12895)
+
+In your `MyNewGrailsPlugin`(which extends `DynamicPlugin`), when you using `doWithSpring()`,
+there will be an error reporting that `A component required a bean of type 'org.rainboyan.plugins.ModuleDescriptorFactory' that could not be found.`,
+this is because the Closure doWithSpring's delegation strategy was not set, `Closure.OWNER_FIRST` is the default strategy.
+
+```groovy
+
+    Closure doWithSpring() { {->
+        // Grails bugs here, because doWithSpring's delegation strategy not set
+           webMenuManager(DefaultWebMenuManager)
+        }
+    }
+
+```
 
 ## License
 
