@@ -22,7 +22,7 @@ import org.rainboyan.plugins.DynamicModulesManager
 import org.springframework.context.ApplicationContext
 
 import grails.plugins.*
-import grails.plugins.module.ModuleDescriptor
+import grails.plugins.ModuleDescriptor
 import grails.util.GrailsMetaClassUtils
 
 @CompileStatic

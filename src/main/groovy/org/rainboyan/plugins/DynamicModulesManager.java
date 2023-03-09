@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 import grails.plugins.GrailsPlugin;
-import grails.plugins.module.ModuleDescriptor;
+import grails.plugins.ModuleDescriptor;
 
 /**
  * DynamicModulesManager

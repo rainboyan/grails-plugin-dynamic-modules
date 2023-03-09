@@ -20,6 +20,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import grails.plugins.ModuleDescriptor;
+
 /**
  * Indicates that the module type on {@link ModuleDescriptor}.
  *

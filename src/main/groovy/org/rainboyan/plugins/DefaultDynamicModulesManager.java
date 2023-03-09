@@ -29,8 +29,8 @@ import org.springframework.context.ApplicationContextAware;
 
 import grails.plugins.GrailsPlugin;
 import grails.plugins.GrailsPluginManager;
+import grails.plugins.ModuleDescriptor;
 import grails.plugins.PluginManagerAware;
-import grails.plugins.module.ModuleDescriptor;
 
 /**
  * DynamicModulesManager

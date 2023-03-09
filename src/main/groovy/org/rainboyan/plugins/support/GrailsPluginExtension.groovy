@@ -24,7 +24,7 @@ import org.springframework.beans.BeanWrapperImpl
 import org.springframework.context.ApplicationContext
 
 import grails.plugins.GrailsPlugin
-import grails.plugins.module.ModuleDescriptor
+import grails.plugins.ModuleDescriptor
 import grails.util.GrailsClassUtils
 import grails.util.GrailsMetaClassUtils
 

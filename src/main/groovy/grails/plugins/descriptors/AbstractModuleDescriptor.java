@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package grails.plugins.module;
+package grails.plugins.descriptors;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +21,7 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
 import grails.plugins.GrailsPlugin;
+import grails.plugins.ModuleDescriptor;
 import grails.plugins.exceptions.PluginException;
 
 /**

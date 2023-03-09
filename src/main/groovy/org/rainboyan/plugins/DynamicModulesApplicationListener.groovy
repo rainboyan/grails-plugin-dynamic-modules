@@ -23,7 +23,8 @@ import org.springframework.context.event.ContextRefreshedEvent
 import grails.plugins.DynamicPlugin
 import grails.plugins.GrailsPlugin
 import grails.plugins.GrailsPluginManager
-import grails.plugins.module.ModuleDescriptor
+import grails.plugins.ModuleDescriptor
+import grails.plugins.ModuleDescriptorFactory
 import grails.plugins.module.ModuleType
 import grails.util.GrailsNameUtils
 

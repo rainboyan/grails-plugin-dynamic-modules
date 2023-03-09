@@ -24,7 +24,8 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 
 import grails.plugins.exceptions.PluginException;
-import grails.plugins.module.ModuleDescriptor;
+import grails.plugins.ModuleDescriptor;
+import grails.plugins.ModuleDescriptorFactory;
 
 /**
  * Default implementation of {@link ModuleDescriptorFactory}

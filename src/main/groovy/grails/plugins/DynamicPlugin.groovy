@@ -15,8 +15,8 @@
  */
 package grails.plugins
 
-import grails.plugins.module.ModuleDescriptor
-import org.rainboyan.plugins.ModuleDescriptorFactory
+import grails.plugins.ModuleDescriptor
+import grails.plugins.ModuleDescriptorFactory
 import org.springframework.beans.factory.NoSuchBeanDefinitionException
 
 /**

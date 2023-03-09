@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.rainboyan.plugins;
+package grails.plugins;
 
 import org.springframework.context.ApplicationContextAware;
 
 import grails.plugins.exceptions.PluginException;
-import grails.plugins.module.ModuleDescriptor;
 
 /**
  * ModuleDescriptorFactory, register {@link ModuleDescriptor}
