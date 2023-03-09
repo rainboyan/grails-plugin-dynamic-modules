@@ -6,7 +6,7 @@ buildscript {
     }
     dependencies {
         classpath "org.grails:grails-gradle-plugin:$grailsVersion"
-        classpath "io.github.gradle-nexus:publish-plugin:1.2.0"
+        classpath "io.github.gradle-nexus:publish-plugin:1.3.0"
     }
 }
 
