@@ -15,8 +15,6 @@
  */
 package grails.plugins
 
-import grails.plugins.ModuleDescriptor
-import grails.plugins.ModuleDescriptorFactory
 import org.springframework.beans.factory.NoSuchBeanDefinitionException
 
 /**
@@ -56,7 +54,7 @@ abstract class DynamicPlugin extends Plugin {
             if (array.length > 1) {
                 Closure closure = array[1] as Closure
                 closure.setDelegate(moduleDescriptor)
-                closure.setResolveStrategy(Closure.DELEGATE_ONLY)
+                closure.setResolveStrategy(Closure.DELEGATE_FIRST)
                 closure.call()
             }
             plugin.addModuleDescriptor(moduleDescriptor)
