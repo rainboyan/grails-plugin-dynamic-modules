@@ -22,10 +22,10 @@ repositories {
 dependencies {
 
     // Grails 4
-    compile "org.rainboyan.plugins:grails-plugin-dynamic-modules:0.0.4"
+    compile "org.rainboyan.plugins:grails-plugin-dynamic-modules:0.0.5"
 
     // Grails 5
-    implementation "org.rainboyan.plugins:grails-plugin-dynamic-modules:0.0.4"
+    implementation "org.rainboyan.plugins:grails-plugin-dynamic-modules:0.0.5"
 }
 
 ```
