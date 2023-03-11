@@ -48,6 +48,9 @@ dependencies {
     profile "org.grails.profiles:web-plugin"
 }
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
 tasks.withType(Sign) {
    onlyIf { isReleaseVersion }
 }
