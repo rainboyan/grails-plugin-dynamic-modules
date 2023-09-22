@@ -1,3 +1,7 @@
 # Application Listener
 org.springframework.context.ApplicationListener=\
 org.rainboyan.plugins.DynamicModulesApplicationListener
+
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+org.rainboyan.plugins.config.DynamicModulesAutoConfiguration

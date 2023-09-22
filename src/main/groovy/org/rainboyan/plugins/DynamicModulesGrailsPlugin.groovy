@@ -55,14 +55,4 @@ Grails Dynamic Modules Plugin offer new ways of creating modular and maintainabl
     // Online location of the plugin's browseable source code.
     def scm = [ url: "https://github.com/rainboyan/grails-plugin-dynamic-modules.git" ]
 
-    Closure doWithSpring() {
-        {->
-            def ctx = applicationContext
-            moduleDescriptorFactory(DefaultModuleDescriptorFactory) {
-                applicationContext = ctx
-            }
-            dynamicModulesManager(DefaultDynamicModulesManager)
-        }
-    }
-
 }
