@@ -1,9 +1,11 @@
 # Grails Dynamic Modules Plugin
 
 Grails Dynamic Modules Plugin (GDMP) offer new ways of creating modular and maintainable Grails applications.
+
 A Grails plugin can implement one or more plugin modules to develop and extend Grails applications.
 We can use Dynamic Modules to maximize the use of Grails plugins and create an open, shared, and reusable plugin market.
-Welcome to contribute more types of modules, as well as plugins for these modules.
+
+I will provide more Module Types in later releases, and also welcome to contribute more types of modules, as well as plugins for these modules.
 
 ## Grails Version
 
@@ -11,7 +13,43 @@ Welcome to contribute more types of modules, as well as plugins for these module
 
 ## Usage
 
-Add dependency to the `build.gradle`,
+This plugin has been released to [Maven Central](https://central.sonatype.com/artifact/org.rainboyan.plugins/grails-plugin-dynamic-modules).
+
+Since this plugin is for building multiple modules, I highly recommend that you read this guide [Grails Multi-Project Build](https://guides.grails.org/grails-multi-project-build/guide/index.html) first. 
+
+
+```bash
+.
+├── gradle
+│   └── wrapper
+├── grails-app
+│   ├── assets
+│   ├── conf
+│   ├── controllers
+│   ├── domain
+│   ├── i18n
+│   ├── init
+│   ├── services
+│   ├── taglib
+│   ├── utils
+│   └── views
+├── plugins
+│   └── menu
+├── src
+│   ├── integration-test
+│   ├── main
+│   └── test
+├── build.gradle
+├── gradle.properties
+├── gradlew
+├── gradlew.bat
+├── grails-wrapper.jar
+├── grailsw
+├── grailsw.bat
+└── settings.gradle
+```
+
+First, you should add the dependency to your app `build.gradle`,
 
 ```gradle
 
@@ -22,17 +60,15 @@ repositories {
 dependencies {
 
     // Grails 4
-    compile "org.rainboyan.plugins:grails-plugin-dynamic-modules:0.0.5"
+    compile "org.rainboyan.plugins:grails-plugin-dynamic-modules:0.1.0"
 
     // Grails 5
-    implementation "org.rainboyan.plugins:grails-plugin-dynamic-modules:0.0.5"
+    implementation "org.rainboyan.plugins:grails-plugin-dynamic-modules:0.1.0"
 }
 
 ```
 
-In your Grails Plugin project,
-
-First, we create a Module descriptor: `MenuModuleDescriptor`,
+Then in your Grails plugin project: `menu`, create your first Module descriptor: `MenuModuleDescriptor`,
 
 ```groovy
 @ModuleType('menu')
@@ -58,17 +94,17 @@ class MenuModuleDescriptor extends AbstractModuleDescriptor {
 }
 ```
 
-and then we update the `MyNewGrailsPlugin` to extend `grails.plugins.DynamicPlugin`,
+Update the `MenuGrailsPlugin` to extend `grails.plugins.DynamicPlugin`,
 
 ```groovy
-class MyNewGrailsPlugin extends DynamicPlugin {
+class MenuGrailsPlugin extends DynamicPlugin {
 
-    // 1. adding custom module types
+    // 1. add your new module types
     def providedModules = [
             MenuModuleDescriptor
     ]
 
-    // 2. define 'menu' module in doWithDynamicModules hook
+    // 2. define 'menu' modules in doWithDynamicModules
     void doWithDynamicModules() {
         menu(key: 'about', i18n: 'menu.about', title: 'About US', link: '/about', location: 'topnav')
         menu(key: 'product', i18n: 'menu.product', title: 'Products', link: '/product', location: 'topnav', enabled: "${Environment.isDevelopmentMode()}") {
@@ -81,7 +117,9 @@ class MyNewGrailsPlugin extends DynamicPlugin {
 }
 ```
 
-now, you can get all the module descriptors in your Grails application throug the extended API of `GrailsPluginManager`,
+`DynamicModules` plugin support more methods of `GrailsPluginManager`,
+
+you can get all the `ModuleDescriptor` in your Grails application throug the two methods of `GrailsPluginManager`,
 
 ```groovy
 
@@ -93,7 +131,9 @@ List<MenuModuleDescriptor> menuDescriptors = pluginManager.getEnabledModuleDescr
 
 ```
 
-I've created a sample Grails project([Grails Dynamic Modules Demo](https://github.com/rainboyan/grails-dynamic-modules-demo)) that you can run it and learn more.
+I've written a demo app for you that you can clone to your local computer, run it, and go through the code to learn more.
+
+* [Grails Dynamic Modules Demo](https://github.com/rainboyan/grails-dynamic-modules-demo)
 
 ## Development
 
@@ -109,6 +149,7 @@ cd grails-plugin-dynamic-modules
 
 * Grails 4.0, 4.1
 * Grails 5.0, 5.1, 5.2, 5.3
+* Grails 6.0
 
 ## Known issues
 
@@ -134,6 +175,23 @@ this is because the Closure doWithSpring's delegation strategy was not set, `Clo
 
 ```
 
+Although 6 months have passed and the [PR#12892](https://github.com/grails/grails-core/pull/12892) for this issue has not been merged [grails-core](https://github.com/grails/grails-core), there is still a way to solve this problem.
+
+That is to use [Java-based Container Configuration](https://docs.spring.io/spring-framework/reference/core/beans/java.html) instead of Grails `Plugin.doWithSpring()`.
+
+```java
+@Configuration(proxyBeanMethods = false)
+public class MenuModuleAutoConfiguration {
+
+    @Bean
+    @ConditionalOnMissingBean
+    public WebMenuManager webMenuManager() {
+        return new DefaultWebMenuManager();
+    }
+
+}
+```
+
 ## License
 
 This plugin is available as open source under the terms of the [APACHE LICENSE, VERSION 2.0](http://apache.org/Licenses/LICENSE-2.0)
@@ -148,3 +206,4 @@ This plugin is available as open source under the terms of the [APACHE LICENSE, 
 - [Project Jigsaw](https://openjdk.org/projects/jigsaw/)
 - [OSGi Specifications](https://docs.osgi.org/specification/)
 - [Spring Dynamic Modules Reference Guide](https://docs.spring.io/spring-osgi/docs/current/reference/html/)
+- [What's a plugin-oriented architecture?](https://spring.io/blog/2010/06/01/what-s-a-plugin-oriented-architecture)
